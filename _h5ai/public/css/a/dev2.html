@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Material Design Floating Input Placeholder DEMO</title>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400' rel='stylesheet' type='text/css'>
+<style class="cp-pen-styles">
+.h, .in::-webkit-input-placeholder, button {
+ font-family: 'roboto', sans-serif;
+ -webkit-transition: all 0.2s ease-in-out;
+ transition: all 0.2s ease-in-out;
+}
+
+.h {
+  height: auto;
+  width: 100%;
+  font-size: 18px;
+  background: #A9A9A9;
+  color: white;
+  line-height: auto;
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.frm {
+  box-sizing: border-box;
+  width: 260px;
+  margin: 150px auto 0;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  padding-bottom: 40px;
+  border-radius: 3px;
+}
+
+.frm .h {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.in {
+  margin: auto;
+  width: 200px;
+  display: block;
+  border: none;
+  padding: 16px 0;
+  border-bottom: solid 1px #808080;
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #808080 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #808080 4%);
+  background-position: -200px 0;
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  color: #fff;
+}
+.in:focus, .in:valid {
+ box-shadow: none;
+ outline: none;
+ background-position: 0 0;
+}
+.in:focus::-webkit-input-placeholder, .in:valid::-webkit-input-placeholder {
+ color: #fff;
+ font-size: 11px;
+ -webkit-transform: translateY(-20px);
+ transform: translateY(-20px);
+ visibility: visible !important;
+}
+
+button {
+  border: none;
+  background: #A9A9A9;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 6px;
+  width: 200px;
+  color: white;
+  margin-top: 25px;
+  margin-left: 25px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  -webkit-transform: translateY(-3px);
+  -ms-transform: translateY(-3px);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+#loading-img {
+    background: url(../images/l.svg) center center no-repeat;
+    height: 100%;
+    z-index: 999 ;
+}
+
+#overlay {
+ content: '';
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+.modal {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> 
+</head>
+
+<body>
+    <div id="overlay">
+    <div id="loading-img"></div>
+    </div>
+<div class="modal" id="id01"><span onclick="cl()" class="close" title="Close Modal">&times;</span>
+<div class="frm animate" id="frm">
+  <div class="h">Folder Name</div>
+   
+  <input class="in" placeholder="folder name" name="fname" id="fname" type="text" required>
+  <button id="cre" onclick="sub()">Submit</button>
+</div>
+</div>
+
+</body>
+
+<script>
+function sub(){
+
+       var formData = document.getElementById( "fname" ).value;
+       var loc = window.location.pathname;
+       var path = loc.substring(0, loc.lastIndexOf('/'));
+
+       alert(path);
+       
+       if(!formData){
+       alert('Err - Enter Directory Name');
+       }
+       
+       else{
+       document.getElementById("cre").disabled = true;
+       document.getElementById("cre").style.cursor = "not-allowed";
+       document.getElementById('overlay').style.display='block';       
+
+        // process the form
+        $.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : './a/dev.php', // the url where we want to POST
+            data: {
+                   fname:formData,
+                   fpath:path
+              }
+        })
+        .done(function(data) {
+
+                // log data to the console so we can see
+                console.log(data); 
+                if(data == "2"){
+                alert('done');
+                } else if(data == "1"){
+                    alert('Err - Directory already exist');
+                } else if(data == "3"){
+                    alert('Err - Unable to create Directory ');
+                }
+                document.getElementById("cre").disabled = false;
+                document.getElementById("cre").style.cursor = "pointer";
+                document.getElementById('overlay').style.display='none';       
+            });
+        
+       }
+
+}
+</script>
+
+
+</html>

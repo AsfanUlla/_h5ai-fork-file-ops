@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Google Inbox Style Material Notifications (Vayes Web - vwtInteract)</title>
+
+
+
+      <link rel="stylesheet" href="notice.css">
+
+
+</head>
+
+<body>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+  
+  <center><button onclick="notice('Demo notice')">Click</button></center>
+  
+  
+    <script>
+
+var vwtInteract=function(){var holder,elem,animIn,animOut,that={};that.init=function(options){if(typeof elem==="undefined")$("<div>",{id:"vwt-InteractWrapper"}).appendTo("body");elem=$(options.selector);animIn=typeof options.animationIn==="undefined"?"fadeInUp":options.animationIn;animOut=typeof options.animationOut==="undefined"?"fadeOutDown":options.animationOut};that.clear=function(){$(".vwt-Interact").remove()};that.show=function(text,duration,action1,action2){var ttl,dismissable;ttl=typeof duration==="undefined"?6E3:duration;dismissable=parseInt(ttl)?false:true;holder=$("<div>",{"class":"vwt-Interact vwt-InteractOpacity",css:{"display":"none"}});holder.appendTo(elem);$("<span>",{css:{"display":"none"}}).appendTo(holder);$("<span>",{"class":"vwt-InteractContent",html:text}).appendTo(holder);if(typeof action1==="undefined"){$("<div>",{"class":"vwt-InteractActionWrapper",css:{"display":"none"}}).appendTo(holder);holder.find(".vwt-InteractActionWrapper").append($("<span>",{"class":"vwt-InteractAction","role":"link"}));holder.find(".vwt-InteractActionWrapper").append($("<span>",{"class":"vwt-InteractAction vwt-InteractSpacer","role":"link",css:{"display":"none"}}))}else{$("<div>",{"class":"vwt-InteractActionWrapper"}).appendTo(holder);holder.find(".vwt-InteractActionWrapper").append($("<span>",{"class":"vwt-InteractAction "+action1["class"],"role":"link",html:action1.title}).attr("data-pass",action1.passData));if(typeof action2==="undefined")holder.find(".vwt-InteractActionWrapper").append($("<span>",{"class":"vwt-InteractAction vwt-InteractSpacer","role":"link",css:{"display":"none"}}));else holder.find(".vwt-InteractActionWrapper").append($("<span>",{"class":"vwt-InteractAction vwt-InteractSpacer "+action2["class"],"role":"link",html:action2.title}).attr("data-pass",action2.passData))}if(dismissable){holder.append($("<button>",{"class":"vwt-InteractSpacer vwt-InteractTransparent","title":"Dismiss"}));holder.find("button").append($("<img>",{"src":"http://cdn.vayes.net/vImage/1.0.0/ui-images/material_interact_close_white_12dp.png","alt":"Dismiss"}))}if(jQuery.fn.animateCSS){holder.animateCSS(animIn,{duration:400});if(!dismissable)holder.animateCSS(animOut,{duration:600,delay:ttl,callback:function(){$(this).delay(200).remove()}});else holder.find("button").on("click",function(e){e.preventDefault();$(this).parent().animateCSS(animOut,{duration:600,callback:function(){$(this).delay(200).remove()}})})}else{holder.slideDown(200);if(!dismissable)holder.delay(ttl).slideUp(200,function(){$(this).remove()});else holder.children("button").on("click",function(e){e.preventDefault();$(this).parent().slideUp(200,function(){$(this).remove()})})}};return that}();
+
+function notice(note){
+    // INIT AND USAGE
+  vwtInteract.init({
+    "selector": "#vwt-InteractWrapper"
+  });
+
+  vwtInteract.show(note,'dismissable or 4E3 as integer');
+
+}
+
+    
+        
+    </script>
+
+
+
+
+</body>
+
+</html>
