@@ -1,4 +1,12 @@
-# ShareNotes
+# _h5ai fork with File operations
+
+## File-operations:
+* Upload
+* Delete
+* Create Folder
+
+## Original repo (https://github.com/lrsjng/h5ai)
+
 Cloud Storage
 
 Copy folder _h5ai to the document root directory of the web server: DOC_ROOT/_h5ai.
